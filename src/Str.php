@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Tobento\Service\Support;
 
+use Stringable;
+
 /**
  * String helper methods
  */
@@ -25,6 +27,28 @@ class Str
      */
     protected static array $snakeCache = [];
 
+    /**
+     * Escapes string with htmlspecialchars.
+     * 
+     * @param string|Stringable $string
+     * @param int $flags
+     * @param string $encoding
+     * @param bool $double_encode
+     * @return string
+     */
+    public static function esc(
+        string|Stringable $string,
+        int $flags = ENT_QUOTES,
+        string $encoding = 'UTF-8',
+        bool $double_encode = true
+    ): string {
+        if ($string instanceof Stringable) {
+            $string = $string->__toString();
+        }
+        
+        return htmlspecialchars($string, $flags, $encoding, $double_encode);
+    }
+    
     /**
      * Convert the given string to lower case.
      *
